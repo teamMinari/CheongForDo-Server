@@ -53,4 +53,12 @@ public class Term {
         this.termDifficulty = termRequestDTO.getTermDifficulty();
     }
 
+    // 쉬운용어풀이 저장
+    @Column(columnDefinition = "TEXT")  // 긴 문자열 저장 가능
+    private String summary;
+
+//    // 쉬운용어풀이 업데이트
+//    public void updateSummary(String summary) {
+//        this.summary = summary;
+//    }
 }
