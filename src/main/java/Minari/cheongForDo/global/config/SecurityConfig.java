@@ -48,8 +48,10 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.addAllowedOriginPattern("*"); // 허용할 도메인 설정
-        configuration.setAllowedMethods(Arrays.asList("*"));
-        configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "DELETE", "OPTIONS", "HEAD", "PATCH"));
+        configuration.setAllowedHeaders(Arrays.asList(
+                "Content-Type", "Authorization", "X-Requested-With", "Accept"
+        ));
         configuration.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
@@ -62,6 +64,7 @@ public class SecurityConfig {
 //        configuration.setAllowedOrigins(Arrays.asList(
 //                "https://minari.vercel.app",
 //                "https://new-mirari-web-git-home-joshmoon827s-projects.vercel.app"
+//                "http://localhost:3000/"
 //        ));
 //        configuration.setAllowedMethods(List.of("*"));
 //        configuration.setAllowedHeaders(List.of("*"));
