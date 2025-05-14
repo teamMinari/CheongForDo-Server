@@ -51,9 +51,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        // 로그인, 회원가입, 뉴스 관련 API, Swagger UI는 인증 없이 접근 가능
-                        .requestMatchers("/member/login", "/member/register", "/news", "/swagger-ui/**", "/v3/**").permitAll()
-                        // 모든 다른 요청도 인증 없이 접근 가능
+                        // 모든 요청에 대해 인증 없이 접근 가능하도록 설정
                         .anyRequest().permitAll()
                 )
                 .sessionManagement(session -> session
