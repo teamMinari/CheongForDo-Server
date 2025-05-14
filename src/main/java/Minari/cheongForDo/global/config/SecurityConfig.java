@@ -25,19 +25,39 @@ public class SecurityConfig {
 
     private final ObjectMapper OBJECT_MAPPER;
 
+//    @Bean
+//    public SecurityFilterChain filterChain(HttpSecurity http, JwtUtils jwtUtils) throws Exception {
+//        http
+//                .cors ((cors) -> cors.configurationSource(corsConfigurationSource()))
+//                .csrf(AbstractHttpConfigurer::disable)
+//                .formLogin(AbstractHttpConfigurer::disable)
+//                .authorizeHttpRequests(auth -> auth
+//                        .requestMatchers("/member/login", "/member/register", "/news", "").permitAll()
+//                        .requestMatchers("/swagger-ui/**", "/v3/**").permitAll()
+//                        .anyRequest().authenticated()
+//                )
+//                .sessionManagement(session -> session
+//                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//                );
+//
+//        http.addFilterBefore(new JwtAuthenticationFilter(jwtUtils, OBJECT_MAPPER), UsernamePasswordAuthenticationFilter.class);
+//        return http.build();
+//    }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, JwtUtils jwtUtils) throws Exception {
         http
-                .cors ((cors) -> cors.configurationSource(corsConfigurationSource()))
+                .cors((cors) -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/member/login", "/member/register", "/news").permitAll()
-                        .requestMatchers("/swagger-ui/**", "/v3/**").permitAll()
-                        .anyRequest().authenticated()
+                        // 로그인, 회원가입, 뉴스 관련 API, Swagger UI는 인증 없이 접근 가능
+                        .requestMatchers("/member/login", "/member/register", "/news", "/swagger-ui/**", "/v3/**").permitAll()
+                        // 모든 다른 요청도 인증 없이 접근 가능
+                        .anyRequest().permitAll()
                 )
                 .sessionManagement(session -> session
-                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 );
 
         http.addFilterBefore(new JwtAuthenticationFilter(jwtUtils, OBJECT_MAPPER), UsernamePasswordAuthenticationFilter.class);
